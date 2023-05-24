@@ -1,0 +1,503 @@
+import pygame
+import os
+
+#########################
+# DEFAULT STUFF
+#########################
+
+running = True
+
+fps = 60
+
+gravityAffected = []
+
+width, height = 1366,769
+window = pygame.display.set_mode((width, height), pygame.RESIZABLE )
+pygame.display.set_caption(Rat Fighter)
+pygame_icon = pygame.image.load('michaelrun_left_1.gif').convert_alpha()
+pygame.display.set_icon(pygame_icon)
+pygame.init()
+
+#########################
+# CAMERA
+#########################
+
+class camera
+    x = 0
+    y = 0
+    scale = 1
+
+#########################
+# RENDERING
+#########################
+
+def render(a)
+    window.blit(a, (100,100))
+
+#########################
+# HIGH SCHOOL ACTUALLY PAYS OFF
+#########################
+
+def midpoint(x1,y1,x2,y2)
+    x = x2 + x1
+    y = y2 + y1
+    x = 2
+    y = 2
+    return x - (width  2),y - (height  2)
+
+#########################
+# SOUND
+#########################
+
+beep = pygame.mixer.Sound(beep.wav)
+
+#########################
+# UI
+#########################
+
+class bar
+    class emptySpace
+        def __init__(self,x,y,w,h,color)
+            self.x = x
+            self.y = y
+            self.w = w
+            self.h = h
+            self.color = color
+    def __init__(self,x,y,w,h,color,color2)
+        self.empty = self.emptySpace(x,y,w,h,color2)
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h 
+        self.color = color
+    def render(self)
+        pygame.draw.rect(window, self.empty.color, pygame.Rect(self.empty.x, self.empty.y, self.empty.w, self.empty.h))
+        pygame.draw.rect(window, self.color, pygame.Rect(self.x, self.y, self.w, self.h))
+        
+hp_1 = bar(
+    x=10,
+    y=10,
+    w=200,
+    h=20,
+    color=(0,255,0),
+    color2=(128,128,128),
+)
+
+hp_2 = bar(
+    x=width - 210,
+    y=10,
+    w=200,
+    h=20,
+    color=(255,0,0),
+    color2=(128,128,128),
+)
+
+#########################
+# MAP OBJECTS
+#########################   
+
+# width  2 - 800,height  2
+
+class map
+    def __init__(self,location=[0,0],size=[400,240],sprite=map_assetsFloor.gif,backdrop=map_assetsSky.gif)
+        self.x = location[0]
+        self.y = location[1]
+        self.w = size[0]
+        self.h = size[1]
+        self.sprite = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(),(self.w,self.h))
+        self.backdrop = pygame.transform.scale(pygame.image.load(backdrop),(1366,768))
+    def render(self)
+        self.sprite = pygame.transform.scale(self.sprite,(self.w  camera.scale,self.h  camera.scale))
+        window.blit(self.backdrop,(0,0))
+        window.blit(self.sprite,((self.x - camera.x)  camera.scale,(self.y - camera.y)  camera.scale))
+
+stage = map(
+    sprite=map_assetsFloor.gif,
+    backdrop=map_assetsSky.gif,
+)
+
+stage2 = map(
+    sprite=map_assetsFloor - Copy.gif,
+    backdrop=map_assetsSky - Copy.gif,
+)
+
+#########################
+# CHARACTER OBJECTS
+#########################
+
+class character
+    class spriteList
+        def __init__(self,spriteSheet,w,h)
+            self.idle_left = pygame.transform.scale(pygame.image.load(spriteSheet[0]).convert_alpha(),(w,h))
+            self.idle_right = pygame.transform.flip(self.idle_left, True, False)
+            self.run_l_1 = pygame.transform.scale(pygame.image.load(spriteSheet[1]).convert_alpha(),(w,h))
+            self.run_l_2 = pygame.transform.scale(pygame.image.load(spriteSheet[2]).convert_alpha(),(w,h))
+            self.run_l_3 = pygame.transform.scale(pygame.image.load(spriteSheet[3]).convert_alpha(),(w,h))
+            self.run_l_4 = pygame.transform.scale(pygame.image.load(spriteSheet[4]).convert_alpha(),(w,h))
+            self.crouch_l = pygame.transform.scale(pygame.image.load(spriteSheet[5]).convert_alpha(),(w,h))
+            self.dodge_l = pygame.transform.scale(pygame.image.load(spriteSheet[6]).convert_alpha(),(w,h))
+            self.attack_l_1 = pygame.transform.scale(pygame.image.load(spriteSheet[7]).convert_alpha(),(w,h))
+            self.attack_l_2 = pygame.transform.scale(pygame.image.load(spriteSheet[8]).convert_alpha(),(w,h))
+            self.attack_l_3 = pygame.transform.scale(pygame.image.load(spriteSheet[9]).convert_alpha(),(w,h))
+            self.attack_l_4 = pygame.transform.scale(pygame.image.load(spriteSheet[10]).convert_alpha(),(w,h))
+            self.spin_l_1 = pygame.transform.scale(pygame.image.load(spriteSheet[7]).convert_alpha(),(w,h))
+            self.spin_l_2 = pygame.transform.scale(pygame.image.load(spriteSheet[8]).convert_alpha(),(w,h))
+            self.spin_l_3 = pygame.transform.scale(pygame.image.load(spriteSheet[9]).convert_alpha(),(w,h))
+            self.spin_l_4 = pygame.transform.scale(pygame.image.load(spriteSheet[10]).convert_alpha(),(w,h))
+            self.run_r_1 = pygame.transform.flip(self.run_l_1, True, False)
+            self.run_r_2 = pygame.transform.flip(self.run_l_2, True, False)
+            self.run_r_3 = pygame.transform.flip(self.run_l_3, True, False)
+            self.run_r_4 = pygame.transform.flip(self.run_l_4, True, False)
+            self.crouch_r = pygame.transform.flip(self.crouch_l, True, False)
+            self.dodge_r = pygame.transform.flip(self.dodge_l, True, False)
+            self.attack_r_1 = pygame.transform.flip(self.attack_l_1, True, False)
+            self.attack_r_2 = pygame.transform.flip(self.attack_l_2, True, False)
+            self.attack_r_3 = pygame.transform.flip(self.attack_l_3, True, False)
+            self.attack_r_4 = pygame.transform.flip(self.attack_l_4, True, False)
+            self.spin_r_1 = pygame.transform.flip(self.spin_l_1, True, False)
+            self.spin_r_2 = pygame.transform.flip(self.spin_l_2, True, False)
+            self.spin_r_3 = pygame.transform.flip(self.spin_l_3, True, False)
+            self.spin_r_4 = pygame.transform.flip(self.spin_l_4, True, False)
+    def __init__(self,spriteSheet,location=[0,0],size=[100,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q])
+        self.x = location[0]
+        self.y = location[1]
+        self.w = size[0]
+        self.h = size[1]
+        self.spriteSheet = spriteSheet
+        self.sprites = self.spriteList(
+            self.spriteSheet,
+            self.w,
+            self.h
+        )
+        self.sprite = self.sprites.idle_left
+        self.uldr = uldr
+        self.speed = 10
+        self.jumpVelocity = 0
+        self.facing = left
+        self.runAnimFrame = 0
+        self.dodgeAnimFrame = 0
+        self.attackAnimFrame = 0
+    def render(self)
+        self.sprite = pygame.transform.scale(self.sprite,(self.w  camera.scale,self.h  camera.scale))
+        window.blit(self.sprite,((self.x - camera.x)  camera.scale,(self.y - camera.y)  camera.scale))
+        #camera.x, camera.y = self.x - (width  2), self.y - (height  2)
+        camera.x, camera.y = midpoint(michael.x,michael.y,player2.x,player2.y)
+    def controller(self)
+        if self.offScreen() == True
+            self.x, self.y = stage.x + 100,stage.y - 100
+        if pygame.key.get_pressed()[self.uldr[0]] #Up
+            print(Up)
+            if pygame.key.get_pressed()[self.uldr[4]]
+                print(Uatk)
+                if self.attackAnimFrame  8
+                    self.attackAnimFrame = 1
+
+                if self.facing == left
+                    print(left)
+                    if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                        self.sprite = self.sprites.spin_l_1
+                    if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                        self.sprite = self.sprites.spin_l_2
+                    if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                        self.sprite = self.sprites.spin_l_3
+                    if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                        self.sprite = self.sprites.spin_l_4
+
+                if self.facing == right
+                    print(right)
+                    if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                        self.sprite = self.sprites.spin_r_1
+                    if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                        self.sprite = self.sprites.spin_r_2
+                    if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                        self.sprite = self.sprites.spin_r_3
+                    if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                        self.sprite = self.sprites.spin_r_4
+                self.attackAnimFrame += 1
+                return
+            if self.collidingGround() == True
+                self.jumpVelocity = 20
+            else
+                if self.facing == left
+                    self.sprite = self.sprites.idle_left
+                if self.facing == right
+                    self.sprite = self.sprites.idle_right
+                pass
+        if pygame.key.get_pressed()[self.uldr[1]] #Left
+            #beep.play()
+            self.facing = left
+            self.x -= self.speed
+            if pygame.key.get_pressed()[self.uldr[4]]
+                print(S-Atk)
+            if pygame.key.get_pressed()[self.uldr[5]] #Dash
+                self.x -= 10
+                if self.dodgeAnimFrame  8
+                    self.dodgeAnimFrame = 1
+
+                if self.dodgeAnimFrame == 1
+                    self.sprite = self.sprites.dodge_l
+                else
+                    pass
+                return
+            if self.collidingGround() == False
+                self.sprite = self.sprites.idle_left
+                self.x -= 2
+                return
+            if self.runAnimFrame  8
+                self.runAnimFrame = 1
+
+            if self.runAnimFrame == 1 or self.runAnimFrame == 2
+                self.sprite = self.sprites.run_l_1
+            if self.runAnimFrame == 3 or self.runAnimFrame == 4
+                self.sprite = self.sprites.run_l_2
+            if self.runAnimFrame == 5 or self.runAnimFrame == 6
+                self.sprite = self.sprites.run_l_3
+            if self.runAnimFrame == 7 or self.runAnimFrame == 8
+                self.sprite = self.sprites.run_l_4
+            self.runAnimFrame += 1
+            return
+        if pygame.key.get_pressed()[self.uldr[3]] #Right
+            self.facing = right
+            self.x += self.speed
+            if pygame.key.get_pressed()[self.uldr[4]] 
+                print(S-Atk)
+            if pygame.key.get_pressed()[self.uldr[5]] #Dash
+                self.x += 10
+                if self.dodgeAnimFrame  8
+                    self.dodgeAnimFrame = 1
+
+                if self.dodgeAnimFrame == 1
+                    self.sprite = self.sprites.dodge_r
+                else
+                    pass
+                return
+            self.dodgeAnimFrame += 1
+            
+            if self.collidingGround() == False
+                self.sprite = self.sprites.idle_right
+                self.x += 2
+                return
+            if self.runAnimFrame  8
+                self.runAnimFrame = 1
+
+            if self.runAnimFrame == 1 or self.runAnimFrame == 2
+                self.sprite = self.sprites.run_r_1
+            if self.runAnimFrame == 3 or self.runAnimFrame == 4
+                self.sprite = self.sprites.run_r_2
+            if self.runAnimFrame == 5 or self.runAnimFrame == 6
+                self.sprite = self.sprites.run_r_3
+            if self.runAnimFrame == 7 or self.runAnimFrame == 8
+                self.sprite = self.sprites.run_r_4
+            self.runAnimFrame += 1
+            return
+        if pygame.key.get_pressed()[self.uldr[2]] #Down
+            if pygame.key.get_pressed()[self.uldr[4]]
+                print(D-Atk)
+            if self.collidingGround() == False
+                self.y += self.speed  2
+                if self.facing == left 
+                    self.sprite = self.sprites.crouch_l
+                if self.facing == right
+                    self.sprite = self.sprites.crouch_r
+                return
+            else
+                if self.facing == left 
+                    self.sprite = self.sprites.crouch_l
+                if self.facing == right
+                    self.sprite = self.sprites.crouch_r
+                return
+        if pygame.key.get_pressed()[pygame.K_r]
+            self.x = 100 
+            self.y = 0
+        if pygame.key.get_pressed()[self.uldr[4]] #LEFT CLICK
+            if pygame.key.get_pressed()[self.uldr[0]] #Up
+                print(Uatk)
+                if self.attackAnimFrame  8
+                    self.attackAnimFrame = 1
+
+                if self.facing == left
+                    print(left)
+                    if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                        self.sprite = self.sprites.spin_l_1
+                    if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                        self.sprite = self.sprites.spin_l_2
+                    if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                        self.sprite = self.sprites.spin_l_3
+                    if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                        self.sprite = self.sprites.spin_l_4
+
+                if self.facing == right
+                    print(right)
+                    if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                        self.sprite = self.sprites.spin_r_1
+                    if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                        self.sprite = self.sprites.spin_r_2
+                    if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                        self.sprite = self.sprites.spin_r_3
+                    if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                        self.sprite = self.sprites.spin_r_4
+                self.attackAnimFrame += 1
+                return
+            
+            if self.attackAnimFrame  8
+                self.attackAnimFrame = 1
+
+            if self.facing == left
+                if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                    self.sprite = self.sprites.attack_l_1
+                if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                    self.sprite = self.sprites.attack_l_2
+                if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                    self.sprite = self.sprites.attack_l_3
+                if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                    self.sprite = self.sprites.attack_l_4
+
+            if self.facing == right
+                if self.attackAnimFrame == 1 or self.attackAnimFrame == 2
+                    self.sprite = self.sprites.attack_r_1
+                if self.attackAnimFrame == 3 or self.attackAnimFrame == 4
+                    self.sprite = self.sprites.attack_r_2
+                if self.attackAnimFrame == 5 or self.attackAnimFrame == 6
+                    self.sprite = self.sprites.attack_r_3
+                if self.attackAnimFrame == 7 or self.attackAnimFrame == 8
+                    self.sprite = self.sprites.attack_r_4
+            self.attackAnimFrame += 1
+            return
+        if pygame.mouse.get_pressed()[1] #MIDDLE CLICK
+            pass
+        if pygame.key.get_pressed()[self.uldr[5]] #RIGHT CLICK
+            if self.dodgeAnimFrame  8
+                self.dodgeAnimFrame = 1
+
+            if self.dodgeAnimFrame == 1
+                if self.facing == left 
+                    self.sprite = self.sprites.dodge_l
+                if self.facing == right
+                    self.sprite = self.sprites.dodge_r
+            else
+                pass
+
+            self.dodgeAnimFrame += 1
+            return
+        else
+            if self.facing == left 
+                self.sprite = self.sprites.idle_left
+            if self.facing == right
+                self.sprite = self.sprites.idle_right
+    def collidingGround(self)
+            #if (self.x in range(stage.x + stage.size[0],stage.x - stage.size[0]) and
+             #   self.x + self.size[0] in range(stage.x + stage.size[0],stage.x - stage.size[0]))
+        if self.x  stage.x + stage.w and self.x + self.w  stage.x and self.y  stage.y + stage.h and self.y + self.h  stage.y
+            return True
+        else
+            return False
+    def offScreen(self)
+        if self.x  camera.x + width or self.x + self.w  camera.x or self.y  camera.y + height or self.y + self.h  camera.y
+            return True
+        else
+            return False
+        
+
+michael = character(
+    spriteSheet=[
+        michaelidle_left.gif,
+        michaelrun_left_1.gif,
+        michaelrun_left_2.gif,
+        michaelrun_left_3.gif,
+        michaelrun_left_4.gif,
+        michaelcrouch.gif,
+        michaelDodge.gif,
+        michaelattack_animsattack_1.gif,
+        michaelattack_animsattack_2.gif,
+        michaelattack_animsattack_3.gif,
+        michaelattack_animsattack_4.gif,
+        michaelattack_animsspin_1.gif,
+        michaelattack_animsspin_2.gif,
+        michaelattack_animsspin_3.gif,
+        michaelattack_animsspin_4.gif,
+    ],
+    location=[stage.x + 100,stage.y - 100],
+    uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g]
+)
+
+player2 = character(
+    spriteSheet=[
+        michaelidle_left.gif,
+        michaelrun_left_1.gif,
+        michaelrun_left_2.gif,
+        michaelrun_left_3.gif,
+        michaelrun_left_4.gif,
+        michaelcrouch.gif,
+        michaelDodge.gif,
+        michaelattack_animsattack_1.gif,
+        michaelattack_animsattack_2.gif,
+        michaelattack_animsattack_3.gif,
+        michaelattack_animsattack_4.gif,
+        michaelattack_animsspin_1.gif,
+        michaelattack_animsspin_2.gif,
+        michaelattack_animsspin_3.gif,
+        michaelattack_animsspin_4.gif,
+    ],
+    location=[stage.x + 100,stage.y - 100],
+    uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL]
+)
+
+gravityAffected.append(michael)
+gravityAffected.append(player2)
+
+#########################
+# GRAVITY
+#########################
+
+def gravity()
+    for i in gravityAffected
+        i.y -= i.jumpVelocity # Velocity handling (velocity = +10) moves up 10 (velocity = -10) moves down 10
+        if i.offScreen()
+            i.x, i.y = stage.x + 100,stage.y - 100
+        if i.collidingGround() == True
+            i.y = stage.y - i.h # returns player to surface of rect
+            i.jumpVelocity = 0
+        if i.collidingGround() == False
+            for o in range(2) 
+                i.y += 1
+            i.jumpVelocity -= 1
+        else
+            pass
+
+'''def gravity()
+    for i in gravityAffected
+        if i.offScreen() #checks if any rat is off the screen
+            i.x, i.y = stage.x + 100,stage.y - 100
+        if (i.y + 1)  stage.y + stage.h and (i.y + 1) + i.h  stage.y # if any rat is in Y
+            i.y -= i.jumpVelocity
+            for o in range(2)
+                i.y += 1
+            i.jumpVelocity -= 1
+            
+            if i.x  stage.x + stage.w and i.x + i.w  stage.x # if any rat is in X
+                i.jumpVelocity = 0
+                return
+                i.y = stage.y - i.h'''
+                
+#########################
+# GAME LOOP
+#########################
+
+clock = pygame.time.Clock()
+
+while running
+    for event in pygame.event.get()
+        if event.type == pygame.QUIT
+            running = False
+    clock.tick(fps)
+    gravity()
+    stage.render()
+    michael.render()
+    player2.render()
+    hp_1.render()
+    hp_2.render()
+    michael.controller()
+    player2.controller()
+    pygame.display.update()
+
+pygame.quit
