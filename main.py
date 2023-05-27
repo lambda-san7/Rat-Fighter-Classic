@@ -39,6 +39,12 @@ class player:
         self.character.uldr = self.uldr
         self.character.target = self.target
         self.character.player = self.name
+        if self.name == "player1":
+            self.character.spawn_point = (stage.x, stage.y - 100)
+            self.character.x, self.character.y = self.character.spawn_point
+        if self.name == "player2":
+            self.character.spawn_point = (stage.x + (stage.w - self.character.w), stage.y - 100)
+            self.character.x, self.character.y = self.character.spawn_point
     def handleCharacter(self):
         self.character.render()
         self.character.controller()
@@ -95,10 +101,6 @@ cursorClick = pygame.transform.scale(pygame.image.load(f"{dir_path}/cursorClick.
 cursorSprite = None
 
 #################### LOOP ####################
-
-player1.character.hat = hats.chef
-
-
 
 while running:
 #    italy_smooth.set_volume(0.1)

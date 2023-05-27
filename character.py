@@ -5,7 +5,7 @@ from window import width, height
 import default
 from default import dir_path
 from default import gravityAffected
-from map import stage 
+from map import stage
 
 bubble = pygame.transform.scale(pygame.image.load(f"{dir_path}/bubble.gif").convert_alpha(),(60,60))
 jump_ground = pygame.transform.scale(pygame.image.load(f"{dir_path}/jump_grounded.gif").convert_alpha(),(70,70))
@@ -109,6 +109,9 @@ class character:
             self.sliding_l = pygame.transform.scale(pygame.image.load(spriteSheet[5]).convert_alpha(),(w,h))
             self.sliding_r = pygame.transform.flip(self.crouch_l, True, False)
 
+            self.damaged_l = pygame.transform.scale(pygame.image.load(spriteSheet[23]).convert_alpha(),(w + 30,h + 30))
+            self.damaged_r = pygame.transform.flip(self.damaged_l, True, False)
+
     #################### CHARACTER INFO ####################
 
     def __init__(self,spriteSheet,location=[0,0],size=[50,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q],hat=hats.none,weight=2):
@@ -141,11 +144,16 @@ class character:
         self.player = None
         self.damageFrame = 0
         self.health = 500
+        self.spawn_point = (0,0)
 
     #################### PLAYER RENDER ####################
 
     def render(self): 
-        self.sprite = pygame.transform.scale(self.sprite,(self.w * camera.scale,self.h * camera.scale))
+        if self.damageFrame > 0:
+            self.sprite =pygame.transform.scale(self.sprites.damaged_l,(self.w * camera.scale,self.h * camera.scale))
+            self.damageFrame -= 1
+        if self.damageFrame <= 0:
+            self.sprite =pygame.transform.scale(self.sprite,(self.w * camera.scale,self.h * camera.scale))
         window.blit(self.sprite,((self.x - camera.x) * camera.scale,(self.y - camera.y) * camera.scale))
         window.blit(pointer,(((self.x) - camera.x) * camera.scale,(((self.y - 50) - camera.y) * camera.scale)))
         if self.moving == False:
@@ -189,14 +197,14 @@ class character:
             self.jumpVelocity = 0
             self.horizontalVelocity = 0
             self.health = 500
-            self.x, self.y = stage.x + 100,stage.y - 100
+            self.x, self.y = self.spawn_point
         if self.health <= 0:
             self.target.character.kills += 1
             self.deaths += 1
             self.jumpVelocity = 0
             self.horizontalVelocity = 0
             self.health = 500
-            self.x, self.y = stage.x + 100,stage.y - 100
+            self.x, self.y = self.spawn_point
         
         #################### PLAYER CONTROLLER --> UP ####################
 
@@ -236,6 +244,7 @@ class character:
                         self.target.character.y + self.target.character.h > (self.y - 30)):
                         self.target.character.horizontalVelocity -= 10
                         self.target.character.health -= 50
+                        self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                     window.blit(self.sprites.side_l_2,(((self.x - 70) - camera.x) * camera.scale,((self.y - 30) - camera.y) * camera.scale))
                     self.sprite = self.sprites.attacking_l_2
@@ -327,6 +336,7 @@ class character:
                         self.target.character.y + self.target.character.h > (self.y - 30)):
                         self.target.character.horizontalVelocity += 10
                         self.target.character.health -= 50
+                        self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                     window.blit(self.sprites.side_r_2,(((self.x + 70) - camera.x) * camera.scale,((self.y - 30) - camera.y) * camera.scale))
                     self.sprite = self.sprites.attacking_r_2
@@ -412,6 +422,7 @@ class character:
                             self.target.character.y + self.target.character.h > (self.y + 70)):
                             self.target.character.jumpVelocity += 10
                             self.target.character.health -= 50
+                            self.target.character.sprite = self.target.character.damageFrame = 10
                     if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                         window.blit(self.sprites.groundpound_l_2,(((self.x - 10) - camera.x) * camera.scale,((self.y + 70) - camera.y) * camera.scale))
                         self.sprite = self.sprites.attacking_l_2
@@ -470,6 +481,7 @@ class character:
                                 self.target.character.horizontalVelocity -= 10
                                 self.target.character.jumpVelocity -= 10
                                 self.target.character.health -= 50
+                                self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                             window.blit(self.sprites.spin_l_2,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
                             self.sprite = self.sprites.attacking_l_2
@@ -493,6 +505,7 @@ class character:
                                 self.target.character.horizontalVelocity += 10
                                 self.target.character.jumpVelocity -= 10
                                 self.target.character.health -= 50
+                                self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                             window.blit(self.sprites.spin_r_2,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
                             self.sprite = self.sprites.attacking_r_2
@@ -521,6 +534,7 @@ class character:
                         self.target.character.y + self.target.character.h > (self.y - 40)):
                         self.target.character.jumpVelocity += 10
                         self.target.character.health -= 50
+                        self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                     window.blit(self.sprites.attack_l_2,(((self.x - 10) - camera.x) * camera.scale,((self.y - 40) - camera.y) * camera.scale))
                 if self.attackAnimFrame == 5 or self.attackAnimFrame == 6:
@@ -539,6 +553,7 @@ class character:
                         self.target.character.y + self.target.character.h > (self.y - 40)):
                         self.target.character.jumpVelocity += 10
                         self.target.character.health -= 50
+                        self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
                     window.blit(self.sprites.attack_r_2,(((self.x - 10) - camera.x) * camera.scale,((self.y - 40) - camera.y) * camera.scale))
                 if self.attackAnimFrame == 5 or self.attackAnimFrame == 6:
@@ -681,6 +696,7 @@ michael = character(
         f"{dir_path}/michael/attacking_3.gif",
         f"{dir_path}/michael/attacking_4.gif",
         f"{dir_path}/michael/roster.gif",
+        f"{dir_path}/michael/damaged.gif",
     ],
     location=[stage.x + 100,stage.y - 100],
     #uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g],
@@ -714,6 +730,7 @@ bell = character(
         f"{dir_path}/bell/attacking_3.gif",
         f"{dir_path}/bell/attacking_4.gif",
         f"{dir_path}/bell/roster.gif",
+        f"{dir_path}/bell/damaged.gif",
     ],
     location=[stage.x + 100,stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -745,6 +762,7 @@ gus = character(
         f"{dir_path}/gus/attacking_3.gif",
         f"{dir_path}/gus/attacking_4.gif",
         f"{dir_path}/gus/roster.gif",
+        f"{dir_path}/gus/damaged.gif",
     ],
     location=[stage.x + 100,stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
