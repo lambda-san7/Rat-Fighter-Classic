@@ -92,12 +92,14 @@ cursorSprite = None
 
 scene = main_menu
 
+running2 = True
+
 #################### LOOP ####################
 
-while running:
+while running2:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            running2 = False
     clock.tick(60)
     #if pygame.mouse.get_pressed()[0]:
         

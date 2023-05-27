@@ -2,6 +2,8 @@ import pygame
 from window import window
 from window import height, width
 from default import dir_path
+import camera
+from camera import camera as cam
 
 hpFrame = pygame.transform.scale(pygame.image.load(f"{dir_path}/hpframe.gif").convert_alpha(),(500,20))
 scoreBox = pygame.transform.scale(pygame.image.load(f"{dir_path}/score inbetween hps.gif").convert_alpha(),(146,30))

@@ -145,6 +145,7 @@ class character:
         self.damageFrame = 0
         self.health = 500
         self.spawn_point = (0,0)
+        self.stock = 3
 
     #################### PLAYER RENDER ####################
 
@@ -198,6 +199,8 @@ class character:
             self.horizontalVelocity = 0
             self.health = 500
             self.x, self.y = self.spawn_point
+            camera.start_shake()
+            self.stock -= 1
         if self.health <= 0:
             self.target.character.kills += 1
             self.deaths += 1
@@ -205,6 +208,8 @@ class character:
             self.horizontalVelocity = 0
             self.health = 500
             self.x, self.y = self.spawn_point
+            camera.start_shake()
+            self.stock -= 1
         
         #################### PLAYER CONTROLLER --> UP ####################
 

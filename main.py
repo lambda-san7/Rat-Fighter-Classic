@@ -3,7 +3,9 @@
 #########################
 
 import pygame
+import random
 import os
+import time
 from default import dir_path
 from default import midpoint
 from default import gravityAffected
@@ -23,6 +25,13 @@ from character import hats
 from match import player1Char, player2Char
 
 pygame.mouse.set_visible(False)
+
+class text:
+    def __init__(self, size, text):
+        self.font = pygame.font.Font(f"{dir_path}/font.fon",size)
+        self.text = self.font.render(text, True, (255,255,255))
+    def render(self,x,y):
+        window.blit(self.text,(x,y))
 
 #########################
 # PLAYER OBJECTS
@@ -66,25 +75,6 @@ player2.target = player1
 
 player1.setCharacter(eval(player1Char))
 player2.setCharacter(eval(player2Char))
-
-#########################
-# GRAVITY
-#########################
-
-'''def gravity():
-    for i in gravityAffected:
-        if i.offScreen(): #checks if any rat is off the screen
-            i.x, i.y = stage.x + 100,stage.y - 100
-        if (i.y + 1) < stage.y + stage.h and (i.y + 1) + i.h > stage.y: # if any rat is in Y
-            i.y -= i.jumpVelocity
-            for o in range(2):
-                i.y += 1
-            i.jumpVelocity -= 1
-            
-            if i.x < stage.x + stage.w and i.x + i.w > stage.x: # if any rat is in X
-                i.jumpVelocity = 0
-                return
-                i.y = stage.y - i.h'''
                 
 #########################
 # GAME LOOP
@@ -98,7 +88,7 @@ cursor = pygame.transform.scale(pygame.image.load(f"{dir_path}/cursor.gif").conv
 
 cursorClick = pygame.transform.scale(pygame.image.load(f"{dir_path}/cursorClick.gif").convert_alpha(), (25,25))
 
-cursorSprite = None
+cursorSprite = cursor
 
 #################### LOOP ####################
 
@@ -108,17 +98,36 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    if player1.character.stock <= 0:
+        print("player1 is full dead")
+        running = False
+    if player2.character.stock <= 0:
+        print("player2 is full dead")
+        running = False
     clock.tick(fps)
-    cursorSprite = cursor
+    print(camera.shake_frame)
+    
     #print(midpoint(player1.character.x,player1.character.y - 200,player2.character.x,player2.character.y - 200))
     #x_mid = ((stage.x + stage.w / 2) + player1.character.x + player2.character.x) / 3
     #y_mid = (stage.y + player1.character.y + player2.character.y) / 3
     #camera.x, camera.y = midpoint(player1.character.x,player1.character.y - 200,player2.character.x,player2.character.y - 200)
     #camera.x, camera.y = x_mid - (pygame.display.Info().current_w / 2), y_mid - (100) - (pygame.display.Info().current_h / 2)
-    camera.x, camera.y = ((stage.x + stage.w) / 2) - (pygame.display.Info().current_w / 2), (stage.y - (pygame.display.Info().current_w / 2)) + 200
     if pygame.mouse.get_pressed()[0]:
         cursorSprite = cursorClick
     stage.render()
+    if camera.shake_frame > 0:
+        pygame.draw.rect(window, (0,0,0), (0, 0, pygame.display.Info().current_w, random.randint(1,25)))
+        pygame.draw.rect(window, (0,0,0), (0, pygame.display.Info().current_h - random.randint(1,25), pygame.display.Info().current_w, 20))
+        camera.x += random.randint(-10, 10)
+        camera.y += random.randint(-10, 10)
+
+        pygame.display.update
+
+        time.sleep(.02)
+
+        camera.shake_frame -= 1
+    if camera.shake_frame <= 0:
+        camera.x, camera.y = ((stage.x + stage.w) / 2) - (pygame.display.Info().current_w / 2), (stage.y - (pygame.display.Info().current_w / 2)) + 200
     hp_1.w = player1.character.health
     hp_1.render()
    # hp_2.x, hp_2.empty.x = pygame.display.Info().current_w - 610,pygame.display.Info().current_w - 610
@@ -129,6 +138,8 @@ while running:
     window.blit(rosterFrame, (10,10))
     window.blit(rosterFrame, (pygame.display.Info().current_w - 110,10))
     window.blit(scoreBox, ((pygame.display.Info().current_w - 146) / 2,10))
+    score = text(size=36,text=f"{player1.character.stock}/{player2.character.stock}")
+    score.render((pygame.display.Info().current_w - score.text.get_width()) / 2, 13)
     window.blit(cursorSprite, pygame.mouse.get_pos())
     pygame.display.update()
 
