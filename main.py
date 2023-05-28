@@ -99,10 +99,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     if player1.character.stock <= 0:
-        print("player1 is full dead")
+        print("player2 Wins!!!")
         running = False
     if player2.character.stock <= 0:
-        print("player2 is full dead")
+        print("player1 Wins!!!")
         running = False
     clock.tick(fps)
     print(camera.shake_frame)

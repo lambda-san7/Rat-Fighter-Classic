@@ -4,6 +4,7 @@
 
 import pygame
 #import main
+import time
 from window import window
 from default import dir_path
 from default import fps
@@ -38,6 +39,8 @@ class text:
 # SCENES
 #########################
 
+scene = None
+
 class main_menu:
     def handle():
         window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
@@ -46,32 +49,66 @@ class main_menu:
         window.blit(button, (10, 220))
         play = text(size=36,text="Join")
         play.render(20, 240)
+        global scene
         if pygame.mouse.get_pressed()[0]:
-            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 292 and
+            if (pygame.mouse.get_pos()[0] < 10 + 584 and
             pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 220 + 30 and
+            pygame.mouse.get_pos()[1] < 220 + 60 and
             pygame.mouse.get_pos()[1] > 220):
-                import main
+                scene = roster
+                
         window.blit(button, (10,280))
         play = text(size=36,text="Host")
         play.render(20,300)
         if pygame.mouse.get_pressed()[0]:
-            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 292 and
+            if (pygame.mouse.get_pos()[0] < 10 + 584 and
             pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 280 + 30 and
+            pygame.mouse.get_pos()[1] < 280 + 60 and
             pygame.mouse.get_pos()[1] > 280):
-                import main
+                scene = roster
+                
         window.blit(button, (10,340))
         play = text(size=36,text="Training")
         play.render(20,360)
         if pygame.mouse.get_pressed()[0]:
-            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 292 and
+            if (pygame.mouse.get_pos()[0] < 10 + 584 and
             pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 340 + 30 and
+            pygame.mouse.get_pos()[1] < 340 + 60 and
             pygame.mouse.get_pos()[1] > 340):
-                import main
-        
-        
+                scene = roster
+                
+
+class roster:
+    def handle():
+        global scene
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        window.blit(button, (10, 10))
+        play = text(size=36,text="Back")
+        play.render(30, 30)
+        if pygame.mouse.get_pressed()[0]:
+            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 584 and
+            pygame.mouse.get_pos()[0] > 10 and
+            pygame.mouse.get_pos()[1] < 10 + 60 and
+            pygame.mouse.get_pos()[1] > 10):
+                scene = main_menu
+        #window.blit(button, (10,280))
+        #play = text(size=36,text="Host")
+        #play.render(20,300)
+        if pygame.mouse.get_pressed()[0]:
+            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 584 and
+            pygame.mouse.get_pos()[0] > 10 and
+            pygame.mouse.get_pos()[1] < 280 + 60 and
+            pygame.mouse.get_pos()[1] > 280):
+                pass
+        window.blit(button, (10,340))
+        play = text(size=36,text="Training")
+        play.render(20,360)
+        if pygame.mouse.get_pressed()[0]:
+            if ((pygame.mouse.get_pos()[0] + 20) < 10 + 584 and
+            pygame.mouse.get_pos()[0] > 10 and
+            pygame.mouse.get_pos()[1] < 340 + 60 and
+            pygame.mouse.get_pos()[1] > 340):
+                pass
 
 
 #########################
