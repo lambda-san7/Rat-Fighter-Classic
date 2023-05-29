@@ -114,7 +114,8 @@ class character:
 
     #################### CHARACTER INFO ####################
 
-    def __init__(self,spriteSheet,location=[0,0],size=[50,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q],hat=hats.none,weight=2):
+    def __init__(self,name_arg,spriteSheet,location=[0,0],size=[50,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q],hat=hats.none,weight=2):
+        self.name = name_arg
         self.x = location[0]
         self.y = location[1]
         self.w = size[0]
@@ -151,7 +152,7 @@ class character:
 
     def render(self): 
         if self.damageFrame > 0:
-            self.sprite =pygame.transform.scale(self.sprites.damaged_l,(self.w * camera.scale,self.h * camera.scale))
+            self.sprite = pygame.transform.scale(self.sprites.damaged_l,(self.w * camera.scale,self.h * camera.scale))
             self.damageFrame -= 1
         if self.damageFrame <= 0:
             self.sprite =pygame.transform.scale(self.sprite,(self.w * camera.scale,self.h * camera.scale))
@@ -677,6 +678,7 @@ class character:
         
 #################### MICHAEL ####################
 michael = character(
+    name_arg="michael",
     spriteSheet=[
         f"{dir_path}/michael/idle_left.gif",
         f"{dir_path}/michael/run_left_1.gif",
@@ -711,6 +713,7 @@ michael = character(
 #################### BELL ####################
 
 bell = character(
+    name_arg="bell",
     spriteSheet=[
         f"{dir_path}/bell/idle_left.gif",
         f"{dir_path}/bell/run_left_1.gif",
@@ -743,6 +746,7 @@ bell = character(
 )
 
 gus = character(
+    name_arg="gus",
     spriteSheet=[
         f"{dir_path}/gus/idle_left.gif",
         f"{dir_path}/gus/run_left_1.gif",
@@ -773,4 +777,38 @@ gus = character(
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2,
     hat=hats.cowboy
+)
+
+no_char = character(
+    name_arg="",
+    spriteSheet=[
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+        f"{dir_path}/none_hat.gif",
+    ],
+    location=[stage.x + 100,stage.y - 100],
+    #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
+    weight=0,
+    hat=hats.none
 )
