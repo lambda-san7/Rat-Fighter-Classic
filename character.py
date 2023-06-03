@@ -269,12 +269,10 @@ class character:
 
             self.moving = True
             if pygame.key.get_pressed()[self.uldr[5]]:
-                self.x += 1
+                self.horizontalVelocity -= 2
                 if self.dodgeAnimFrame > 8:
                     self.dodgeAnimFrame = 1
                 for i in range(5):
-                    self.horizontalVelocity = 0
-                    self.jumpVelocity = 0
                     window.blit(bubble,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
                 else:
                     pass
@@ -360,13 +358,11 @@ class character:
             #################### PLAYER CONTROLLER --> RIGHT --> DODGE ####################
 
             if pygame.key.get_pressed()[self.uldr[5]]:
-                self.x -= 1
+                self.horizontalVelocity += 2
                 if self.dodgeAnimFrame > 8:
                     self.dodgeAnimFrame = 1
 
                 for i in range(5):
-                    self.horizontalVelocity = 0
-                    self.jumpVelocity = 0
                     window.blit(bubble,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
                 else:
                     pass
