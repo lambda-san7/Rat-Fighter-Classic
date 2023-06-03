@@ -198,6 +198,8 @@ class roster:
             pygame.mouse.get_pos()[0] > pygame.display.Info().current_w - 292 and
             pygame.mouse.get_pos()[1] < pygame.display.Info().current_h - 60 + 60 and
             pygame.mouse.get_pos()[1] > pygame.display.Info().current_h - 60):
+                if current_character_1 == no_char or current_character_2 == no_char:
+                    return
                 player1.setCharacter(current_character_1)
                 player2.setCharacter(current_character_2)
                 scene = game
