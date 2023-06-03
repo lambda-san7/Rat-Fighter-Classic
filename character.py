@@ -10,9 +10,9 @@ from match import player1Char, player2Char
 
 bubble = pygame.transform.scale(pygame.image.load(f"{dir_path}/bubble.gif").convert_alpha(),(60,60))
 jump_ground = pygame.transform.scale(pygame.image.load(f"{dir_path}/jump_grounded.gif").convert_alpha(),(70,70))
-pointer = pygame.transform.scale(pygame.image.load(f"{dir_path}/player_pointer.gif").convert_alpha(),(20,20))
+pointer = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/player_pointer.gif").convert_alpha(),(20,20))
 
-rosterFrame = pygame.transform.scale(pygame.image.load(f"{dir_path}/rosterframe.gif").convert_alpha(),(100,100))
+rosterFrame = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/rosterframe.gif").convert_alpha(),(100,100))
 
 
 class hats:

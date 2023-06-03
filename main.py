@@ -31,15 +31,15 @@ running = True
 
 clock = pygame.time.Clock()
 
-cursor = pygame.transform.scale(pygame.image.load(f"{dir_path}/cursor.gif").convert_alpha(), (25,25))
+cursor = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/cursor.gif").convert_alpha(), (25,25))
 
-cursorClick = pygame.transform.scale(pygame.image.load(f"{dir_path}/cursorClick.gif").convert_alpha(), (25,25))
+cursorClick = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/cursorClick.gif").convert_alpha(), (25,25))
 
-title = pygame.transform.scale(pygame.image.load(f"{dir_path}/Title.gif").convert_alpha(), (300,150))
+title = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/Title.gif").convert_alpha(), (300,150))
 
 cursorSprite = None
 
-button = pygame.transform.scale(pygame.image.load(f"{dir_path}/score inbetween hps.gif").convert_alpha(),(292,60))
+button = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/score inbetween hps.gif").convert_alpha(),(292,60))
 
 current_character_1 = no_char
 current_character_2 = no_char
