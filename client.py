@@ -3,14 +3,14 @@
 #########################
 
 import pygame
-#import main
+import main
 import time
 from window import window
 from default import dir_path
 from default import fps
 from default import running
 from interface import scoreBox
-import match as game_match
+import match
 from match import player1Char, player2Char, stage
 from pygame import font
 from character import rosterFrame
@@ -19,12 +19,13 @@ from character import no_char, michael, bell, gus
 pygame.mouse.set_visible(False)
 
 
-game_match.player2Char = "bell"
-game_match.stage = "sky_islands"
+#match.player2Char = "bell"
+match.stage = "sky_islands"
 
 button = pygame.transform.scale(pygame.image.load(f"{dir_path}/score inbetween hps.gif").convert_alpha(),(292,60))
 
-current_character = no_char
+current_character_1 = no_char
+current_character_2 = no_char
 
 pygame.font.init()
 
@@ -84,7 +85,8 @@ class main_menu:
 
 class roster:
     def handle():
-        global current_character
+        global current_character_1
+        global current_character_2
         global scene
         #window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
@@ -105,9 +107,17 @@ class roster:
             pygame.mouse.get_pos()[0] > 3 * 120 and
             pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
             pygame.mouse.get_pos()[1] > .5 * 120):
-                print("clicked mike")
-                current_character = michael
-                game_match.player1Char = "michael"
+                #print("clicked mike")
+                current_character_1 = michael
+                match.player1Char = "michael"
+        if pygame.mouse.get_pressed()[2]:
+            if (pygame.mouse.get_pos()[0] < 3 * 120 + 100 and
+            pygame.mouse.get_pos()[0] > 3 * 120 and
+            pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
+            pygame.mouse.get_pos()[1] > .5 * 120):
+                #print("clicked mike")
+                current_character_2 = michael
+                match.player2Char = "michael"
 
         window.blit(bell.sprites.roster, (4 * 120,.5 * 120))
         window.blit(rosterFrame, (4 * 120,.5 * 120))
@@ -116,9 +126,17 @@ class roster:
             pygame.mouse.get_pos()[0] > 4 * 120 and
             pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
             pygame.mouse.get_pos()[1] > .5 * 120):
-                print("clicked bell")
-                current_character = bell
-                game_match.player1Char = "bell"
+                #print("clicked bell")
+                current_character_1 = bell
+                match.player1Char = "bell"
+        if pygame.mouse.get_pressed()[2]:
+            if (pygame.mouse.get_pos()[0] < 4 * 120 + 100 and
+            pygame.mouse.get_pos()[0] > 4 * 120 and
+            pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
+            pygame.mouse.get_pos()[1] > .5 * 120):
+                #print("clicked bell")
+                current_character_2 = bell
+                match.player2Char = "bell"
 
         window.blit(gus.sprites.roster, (5 * 120,.5 * 120))
         window.blit(rosterFrame, (5 * 120,.5 * 120))
@@ -127,9 +145,17 @@ class roster:
             pygame.mouse.get_pos()[0] > 5 * 120 and
             pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
             pygame.mouse.get_pos()[1] > .5 * 120):
-                print("clicked gus")
-                current_character = gus
-                game_match.player1Char = "gus"
+                #print("clicked gus")
+                current_character_1 = gus
+                match.player1Char = "gus"
+        if pygame.mouse.get_pressed()[2]:
+            if (pygame.mouse.get_pos()[0] < 5 * 120 + 100 and
+            pygame.mouse.get_pos()[0] > 5 * 120 and
+            pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
+            pygame.mouse.get_pos()[1] > .5 * 120):
+                #print("clicked gus")
+                current_character_2 = gus
+                match.player2Char = "gus"
 
         window.blit(rosterFrame, (6 * 120,.5 * 120))
 
@@ -137,11 +163,17 @@ class roster:
 
         window.blit(rosterFrame, (8 * 120,.5 * 120))
 
-        window.blit(pygame.transform.scale(current_character.sprites.idle_right,(100,100)),(3 * 120, pygame.display.Info().current_h - 250))
-        window.blit(pygame.transform.scale(current_character.hat,(50,50)),((3 * 120) + 50, pygame.display.Info().current_h - 292))
+        window.blit(pygame.transform.scale(current_character_1.sprites.idle_right,(100,100)),(3 * 120, pygame.display.Info().current_h - 250))
+        window.blit(pygame.transform.scale(current_character_1.hat,(50,50)),((3 * 120) + 50, pygame.display.Info().current_h - 292))
         window.blit(button, (3 * 120, pygame.display.Info().current_h - 150))
-        play = text(size=36,text=f"{current_character.name}")
+        play = text(size=36,text=f"{current_character_1.name}")
         play.render((3 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
+
+        window.blit(pygame.transform.scale(current_character_2.sprites.idle_right,(100,100)),(7 * 120, pygame.display.Info().current_h - 250))
+        window.blit(pygame.transform.scale(current_character_2.hat,(50,50)),((7 * 120) + 50, pygame.display.Info().current_h - 292))
+        window.blit(button, (7 * 120, pygame.display.Info().current_h - 150))
+        play = text(size=36,text=f"{current_character_2.name}")
+        play.render((7 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
 
         window.blit(button, (pygame.display.Info().current_w - 302, pygame.display.Info().current_h - 70))
         play = text(size=36,text="Start")
@@ -151,7 +183,7 @@ class roster:
             pygame.mouse.get_pos()[0] > pygame.display.Info().current_w - 292 and
             pygame.mouse.get_pos()[1] < pygame.display.Info().current_h - 60 + 60 and
             pygame.mouse.get_pos()[1] > pygame.display.Info().current_h - 60):
-                import main
+                main.running = True
 
 #########################
 # GAME LOOP

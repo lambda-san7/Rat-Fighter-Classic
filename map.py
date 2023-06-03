@@ -1,10 +1,10 @@
 import pygame
 from window import window
 from camera import camera
-from match import stage as matchStage
+#from match import stage as matchStage
 
 class map:
-    def __init__(self,location=[0,100],size=[400,240],sprite="map_assets/Floor.gif",backdrop="map_assets/Sky.gif",extra="map_assets/extra.gif"):
+    def __init__(self,location=[0,100],size=[400,240],sprite="map_assets/Floor2.gif",backdrop="map_assets/Sky.gif",extra="map_assets/extra.gif"):
         self.x = location[0]
         self.y = location[1]
         self.w = size[0]
@@ -40,4 +40,16 @@ italy = map(
     extra="map_assets/venice_extra.gif"
 )
 
-stage = eval(matchStage)
+class new_stage:
+    def __init__(self):
+        self.stage = None
+        self.name = None
+    def setStage(self,stage,name):
+        self.stage = stage
+        self.name = name
+    def handle(self):
+        self.stage.render()
+
+#################### PLAYERS 1 & 2 ####################
+
+stage = new_stage()

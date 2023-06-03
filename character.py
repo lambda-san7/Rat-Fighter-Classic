@@ -6,6 +6,7 @@ import default
 from default import dir_path
 from default import gravityAffected
 from map import stage
+from match import player1Char, player2Char
 
 bubble = pygame.transform.scale(pygame.image.load(f"{dir_path}/bubble.gif").convert_alpha(),(60,60))
 jump_ground = pygame.transform.scale(pygame.image.load(f"{dir_path}/jump_grounded.gif").convert_alpha(),(70,70))
@@ -613,14 +614,14 @@ class character:
     #################### COLLIDING GROUND ####################
         
     def collidingGround(self):
-        if ((self.x + 20) < stage.x + stage.w and
-            self.x + (self.w - 20) > stage.x and
-            self.y < stage.y + stage.h and
-            self.y + self.h > stage.y):
-            if self.y > stage.y:
-                if self.x <= stage.x:
+        if ((self.x + 20) < stage.stage.x + stage.stage.w and
+            self.x + (self.w - 20) > stage.stage.x and
+            self.y < stage.stage.y + stage.stage.h and
+            self.y + self.h > stage.stage.y):
+            if self.y > stage.stage.y:
+                if self.x <= stage.stage.x:
                     return "left"
-                if self.x + (self.w) >= stage.x + stage.w:
+                if self.x + (self.w) >= stage.stage.x + stage.stage.w:
                     return "right"
             else:
                 return True
@@ -665,7 +666,7 @@ class character:
         #################### GROUNDED ####################
 
         if self.collidingGround() == True:
-            self.y = stage.y - self.h
+            self.y = stage.stage.y - self.h
             self.jumpVelocity = 0
 
         #################### AIRBORNE ####################
@@ -705,7 +706,7 @@ michael = character(
         f"{dir_path}/michael/roster.gif",
         f"{dir_path}/michael/damaged.gif",
     ],
-    location=[stage.x + 100,stage.y - 100],
+    location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g],
     weight=2
 )
@@ -740,7 +741,7 @@ bell = character(
         f"{dir_path}/bell/roster.gif",
         f"{dir_path}/bell/damaged.gif",
     ],
-    location=[stage.x + 100,stage.y - 100],
+    location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2
 )
@@ -773,7 +774,7 @@ gus = character(
         f"{dir_path}/gus/roster.gif",
         f"{dir_path}/gus/damaged.gif",
     ],
-    location=[stage.x + 100,stage.y - 100],
+    location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2,
     hat=hats.cowboy
@@ -807,8 +808,48 @@ no_char = character(
         f"{dir_path}/none_hat.gif",
         f"{dir_path}/none_hat.gif",
     ],
-    location=[stage.x + 100,stage.y - 100],
+    location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=0,
     hat=hats.none
 )
+
+#########################
+# PLAYER OBJECTS
+#########################
+
+class player:
+    def __init__(self,uldr,name):
+        self.character = None
+        self.uldr = uldr
+        self.target = None
+        self.name = name
+    def setCharacter(self,character):
+        self.character = character
+        self.character.uldr = self.uldr
+        self.character.target = self.target
+        self.character.player = self.name
+        if self.name == "player1":
+            self.character.spawn_point = (stage.stage.x, stage.stage.y - 100)
+            self.character.x, self.character.y = self.character.spawn_point
+        if self.name == "player2":
+            self.character.spawn_point = (stage.stage.x + (stage.stage.w - self.character.w), stage.stage.y - 100)
+            self.character.x, self.character.y = self.character.spawn_point
+    def handleCharacter(self):
+        self.character.render()
+        self.character.controller()
+        self.character.gravitate()
+        if self.name == "player1":
+            window.blit(self.character.sprites.roster, (10,10))
+        if self.name == "player2":
+            window.blit(self.character.sprites.roster, (pygame.display.Info().current_w - 110,10))
+
+#################### PLAYERS 1 & 2 ####################
+
+player1 = player([pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g],"player1")
+player2 = player([pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],"player2")
+
+player1.target = player2
+player2.target = player1
+
+#################### SET CHARACTERS ####################
