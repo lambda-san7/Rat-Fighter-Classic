@@ -11,7 +11,7 @@ class map:
         self.h = size[1]
         self.sprite = pygame.transform.scale(pygame.image.load(sprite).convert_alpha(),(self.w,self.h))
         self.extra = pygame.transform.scale(pygame.image.load(extra).convert_alpha(),(self.w,1000))
-        self.backdrop = pygame.transform.scale(pygame.image.load(backdrop),(1366,768))
+        self.backdrop = pygame.transform.scale(pygame.image.load(backdrop),(pygame.display.Info().current_w,pygame.display.Info().current_h))
     def render(self):
         self.sprite = pygame.transform.scale(self.sprite,(self.w * camera.scale,self.h * camera.scale))
         window.blit(self.backdrop,(0,0))

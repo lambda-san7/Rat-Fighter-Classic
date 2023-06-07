@@ -53,8 +53,9 @@ scene = None
 class main_menu:
     def handle():
         global running
-        #window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        
         window.blit(title, (10, 10))
         window.blit(button, (10, 220))
         play = text(size=36,text="Join")
@@ -103,8 +104,9 @@ class roster:
         global current_character_1
         global current_character_2
         global scene
-        #window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        
         window.blit(button, (10, 10))
         play = text(size=36,text="Back")
         play.render(30, 30)
@@ -205,50 +207,28 @@ class roster:
                 scene = game
 
 class win_screen:
-    def handle(winner):
+    def __init__(self, winner):
+        self.winner = winner
+    def handle(self):
         global running
-        #window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
-        window.fill((50,50,50))
-        window.blit(button, (10, 220))
-        play = text(size=36,text="Join")
-        play.render(20, 240)
         global scene
-        if pygame.mouse.get_pressed()[0]:
-            if (pygame.mouse.get_pos()[0] < 10 + 292 and
-            pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 220 + 60 and
-            pygame.mouse.get_pos()[1] > 220):
-                scene = roster
-                
-        window.blit(button, (10,280))
-        play = text(size=36,text="Host")
-        play.render(20,300)
-        if pygame.mouse.get_pressed()[0]:
-            if (pygame.mouse.get_pos()[0] < 10 + 292 and
-            pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 280 + 60 and
-            pygame.mouse.get_pos()[1] > 280):
-                scene = roster
-                
-        window.blit(button, (10,340))
-        play = text(size=36,text="Quit")
-        play.render(20,360)
-        if pygame.mouse.get_pressed()[0]:
-            if (pygame.mouse.get_pos()[0] < 10 + 292 and
-            pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 340 + 60 and
-            pygame.mouse.get_pos()[1] > 340):
-                scene = roster
+        window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 250))
+        play = text(size=36,text=f"{self.winner.character.name} ({self.winner.name}) Wins!")
+        play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 250) + 10)
         
-        window.blit(button, (10,400))
-        play = text(size=36,text="Training")
-        play.render(20,420)
+        window.blit(pygame.transform.scale(self.winner.character.sprites.idle_right,(200,200)),((pygame.display.Info().current_w / 2) - 50, pygame.display.Info().current_h - 450))
+        window.blit(pygame.transform.scale(self.winner.character.hat,(10,10)),(((pygame.display.Info().current_w / 2) - 50, pygame.display.Info().current_h - 492)))
+        window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 150))
+        play = text(size=36,text=f"Continue")
+        play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 150) + 10)
         if pygame.mouse.get_pressed()[0]:
-            if (pygame.mouse.get_pos()[0] < 10 + 292 and
-            pygame.mouse.get_pos()[0] > 10 and
-            pygame.mouse.get_pos()[1] < 400 + 60 and
-            pygame.mouse.get_pos()[1] > 400):
-                running = False
+            if (pygame.mouse.get_pos()[0] < (pygame.display.Info().current_w / 2) - 146 + 292 and
+            pygame.mouse.get_pos()[0] > (pygame.display.Info().current_w / 2) - 146 and 
+            pygame.mouse.get_pos()[1] < pygame.display.Info().current_h - 150 + 60 and
+            pygame.mouse.get_pos()[1] > pygame.display.Info().current_h - 150):
+                scene = roster
 
 
 class game:
@@ -257,16 +237,18 @@ class game:
         if player1.character.stock <= 0:
             if player2.character.stock <= 0:
                 print("draw")
+            winner = win_screen(player2)
             #print("player2 Wins!!!")
-            scene = main_menu
+            scene = winner
             player1.character.stock = 3
             player2.character.stock = 3
             camera.shake_frame = 0
         if player2.character.stock <= 0:
             if player1.character.stock <= 0:
                 print("draw")
+            winner = win_screen(player1)
             #print("player1 Wins!!!")
-            scene = main_menu
+            scene = winner
             player1.character.stock = 3
             player2.character.stock = 3
             camera.shake_frame = 0
