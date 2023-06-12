@@ -810,6 +810,40 @@ draedon = character(
     hat=hats.none
 )
 
+dante = character(
+    name_arg="dante",
+    spriteSheet=[
+        f"{dir_path}/dante/idle_left.gif",
+        f"{dir_path}/dante/run_left_1.gif",
+        f"{dir_path}/dante/run_left_2.gif",
+        f"{dir_path}/dante/run_left_3.gif",
+        f"{dir_path}/dante/run_left_4.gif",
+        f"{dir_path}/dante/crouch.gif",
+        f"{dir_path}/dante/attack_anims/attack_1.gif",
+        f"{dir_path}/dante/attack_anims/attack_2.gif",
+        f"{dir_path}/dante/attack_anims/attack_3.gif",
+        f"{dir_path}/dante/attack_anims/attack_4.gif",
+        f"{dir_path}/dante/attack_anims/spin_1.gif",
+        f"{dir_path}/dante/attack_anims/spin_2.gif",
+        f"{dir_path}/dante/attack_anims/spin_3.gif",
+        f"{dir_path}/dante/attack_anims/spin_4.gif",
+        f"{dir_path}/dante/attack_anims/side_1.gif",
+        f"{dir_path}/dante/attack_anims/side_2.gif",
+        f"{dir_path}/dante/attack_anims/side_3.gif",
+        f"{dir_path}/dante/attack_anims/side_4.gif",
+        f"{dir_path}/dante/attacking_1.gif",
+        f"{dir_path}/dante/attacking_2.gif",
+        f"{dir_path}/dante/attacking_3.gif",
+        f"{dir_path}/dante/attacking_4.gif",
+        f"{dir_path}/dante/roster.gif",
+        f"{dir_path}/dante/damaged.gif",
+    ],
+    location=[stage.stage.x + 100,stage.stage.y - 100],
+    #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
+    weight=2,
+    hat=hats.none
+)
+
 no_char = character(
     name_arg="",
     spriteSheet=[
