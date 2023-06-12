@@ -106,6 +106,7 @@ class character:
             self.groundpound_r_4 = self.groundpound_l_4
 
             self.roster = pygame.transform.scale(pygame.image.load(spriteSheet[22]).convert_alpha(),(100,100))
+            self.rosterSelect = pygame.transform.scale(pygame.image.load(spriteSheet[24]).convert_alpha(),(100,100))
 
             self.sliding_l = pygame.transform.scale(pygame.image.load(spriteSheet[5]).convert_alpha(),(w,h))
             self.sliding_r = pygame.transform.flip(self.crouch_l, True, False)
@@ -701,6 +702,7 @@ michael = character(
         f"{dir_path}/michael/attacking_4.gif",
         f"{dir_path}/michael/roster.gif",
         f"{dir_path}/michael/damaged.gif",
+        f"{dir_path}/michael/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g],
@@ -736,6 +738,7 @@ bell = character(
         f"{dir_path}/bell/attacking_4.gif",
         f"{dir_path}/bell/roster.gif",
         f"{dir_path}/bell/damaged.gif",
+        f"{dir_path}/bell/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -769,6 +772,7 @@ gus = character(
         f"{dir_path}/gus/attacking_4.gif",
         f"{dir_path}/gus/roster.gif",
         f"{dir_path}/gus/damaged.gif",
+        f"{dir_path}/gus/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -803,6 +807,7 @@ draedon = character(
         f"{dir_path}/draedon/attacking_4.gif",
         f"{dir_path}/draedon/roster.gif",
         f"{dir_path}/draedon/damaged.gif",
+        f"{dir_path}/draedon/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -837,6 +842,7 @@ dante = character(
         f"{dir_path}/dante/attacking_4.gif",
         f"{dir_path}/dante/roster.gif",
         f"{dir_path}/dante/damaged.gif",
+        f"{dir_path}/michael/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -847,6 +853,7 @@ dante = character(
 no_char = character(
     name_arg="",
     spriteSheet=[
+        f"{dir_path}/none_hat.gif",
         f"{dir_path}/none_hat.gif",
         f"{dir_path}/none_hat.gif",
         f"{dir_path}/none_hat.gif",

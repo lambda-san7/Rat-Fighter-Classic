@@ -39,7 +39,9 @@ title = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/Title.gif").con
 
 cursorSprite = None
 
-button = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/score inbetween hps.gif").convert_alpha(),(292,60))
+button = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/button.gif").convert_alpha(),(292,60))
+rosterselect = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/rosterselect.gif").convert_alpha(),(292,292))
+rosterBack = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/rosterBack.gif").convert_alpha(),(740,500))
 
 current_character_1 = no_char
 current_character_2 = no_char
@@ -53,9 +55,9 @@ scene = None
 class main_menu:
     def handle():
         global running
-        
-        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        
         window.blit(title, (10, 10))
         window.blit(button, (10, 220))
         play = text(size=36,text="Join")
@@ -104,9 +106,9 @@ class roster:
         global current_character_1
         global current_character_2
         global scene
-        
-        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        
         window.blit(button, (10, 10))
         play = text(size=36,text="Back")
         play.render(30, 30)
@@ -117,6 +119,9 @@ class roster:
             pygame.mouse.get_pos()[1] > 10):
                 scene = main_menu
 
+        window.blit(rosterBack, ((3 * 120) - 20,(.5 * 120) - 20))
+
+        pygame.draw.rect(window, (50,50,50), (3 * 120,.5 * 120, 100, 100))
         window.blit(michael.sprites.roster, (3 * 120,.5 * 120))
         window.blit(rosterFrame, (3 * 120,.5 * 120))
         if pygame.mouse.get_pressed()[0]:
@@ -137,6 +142,7 @@ class roster:
                 stage.setStage(underworld)
                 #match.player2Char = "michael"
 
+        pygame.draw.rect(window, (50,50,50), (4 * 120,.5 * 120, 100, 100))
         window.blit(bell.sprites.roster, (4 * 120,.5 * 120))
         window.blit(rosterFrame, (4 * 120,.5 * 120))
         if pygame.mouse.get_pressed()[0]:
@@ -156,6 +162,7 @@ class roster:
                 current_character_2 = bell
                 #match.player2Char = "bell"
 
+        pygame.draw.rect(window, (50,50,50), (5 * 120,.5 * 120, 100, 100))
         window.blit(gus.sprites.roster, (5 * 120,.5 * 120))
         window.blit(rosterFrame, (5 * 120,.5 * 120))
         if pygame.mouse.get_pressed()[0]:
@@ -175,6 +182,7 @@ class roster:
                 current_character_2 = gus
                 #match.player2Char = "gus"
         
+        pygame.draw.rect(window, (50,50,50), (6 * 120,.5 * 120, 100, 100))
         window.blit(draedon.sprites.roster, (6 * 120,.5 * 120))
         window.blit(rosterFrame, (6 * 120,.5 * 120))
         if pygame.mouse.get_pressed()[0]:
@@ -194,6 +202,7 @@ class roster:
                 current_character_2 = draedon
                 #match.player2Char = "gus"
 
+        pygame.draw.rect(window, (50,50,50), (7 * 120,.5 * 120, 100, 100))
         window.blit(dante.sprites.roster, (7 * 120,.5 * 120))
         window.blit(rosterFrame, (7 * 120,.5 * 120))
         if pygame.mouse.get_pressed()[0]:
@@ -215,15 +224,15 @@ class roster:
 
         window.blit(rosterFrame, (8 * 120,.5 * 120))
 
+        window.blit(rosterselect, (3 * 120, ((pygame.display.Info().current_h - 292) - 150) + 60))
         window.blit(pygame.transform.scale(current_character_1.sprites.idle_right,(100,100)),(3 * 120, pygame.display.Info().current_h - 250))
         window.blit(pygame.transform.scale(current_character_1.hat,(50,50)),((3 * 120) + 50, pygame.display.Info().current_h - 292))
-        window.blit(button, (3 * 120, pygame.display.Info().current_h - 150))
         play = text(size=36,text=f"{current_character_1.name}")
         play.render((3 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
 
+        window.blit(rosterselect, (7 * 120, ((pygame.display.Info().current_h - 292) - 150) + 60))
         window.blit(pygame.transform.scale(current_character_2.sprites.idle_right,(100,100)),(7 * 120, pygame.display.Info().current_h - 250))
         window.blit(pygame.transform.scale(current_character_2.hat,(50,50)),((7 * 120) + 50, pygame.display.Info().current_h - 292))
-        window.blit(button, (7 * 120, pygame.display.Info().current_h - 150))
         play = text(size=36,text=f"{current_character_2.name}")
         play.render((7 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
 
@@ -247,9 +256,9 @@ class win_screen:
     def handle(self):
         global running
         global scene
-        
-        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         window.fill((50,50,50))
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        
         window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 250))
         play = text(size=36,text=f"{self.winner.character.name} ({self.winner.name}) Wins!")
         play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 250) + 10)
@@ -328,8 +337,16 @@ class game:
 class text:
     def __init__(self, size, text):
         self.font = pygame.font.Font(f"{dir_path}/font.fon",size)
+        self.text_holder = text
         self.text = self.font.render(text, True, (255,255,255))
     def render(self,x,y):
+        font = pygame.font.Font(f"{dir_path}/font.fon",32)
+        text = font.render(self.text_holder, True, (0,0,0))
+        window.blit(text,(x + 2,y))
+        window.blit(text,(x - 2,y))
+        window.blit(text,(x,y + 2))
+        window.blit(text,(x,y - 2))
+
         window.blit(self.text,(x,y))
 
 scene = main_menu
