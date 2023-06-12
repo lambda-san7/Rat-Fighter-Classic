@@ -43,10 +43,8 @@ italy = map(
 class new_stage:
     def __init__(self):
         self.stage = None
-        self.name = None
-    def setStage(self,stage,name):
+    def setStage(self,stage):
         self.stage = stage
-        self.name = name
     def handle(self):
         self.stage.render()
 

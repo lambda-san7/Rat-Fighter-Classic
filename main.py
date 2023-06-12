@@ -11,7 +11,7 @@ from interface import scoreBox
 import map
 from map import stage
 from map import sky_islands, italy, underworld
-stage.setStage(sky_islands,"Sky Islands")
+stage.setStage(sky_islands)
 from character import rosterFrame
 from character import no_char, michael, bell, gus, draedon, dante
 from character import player1, player2
@@ -53,9 +53,9 @@ scene = None
 class main_menu:
     def handle():
         global running
-        window.fill((50,50,50))
-        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        window.fill((50,50,50))
         window.blit(title, (10, 10))
         window.blit(button, (10, 220))
         play = text(size=36,text="Join")
@@ -104,9 +104,9 @@ class roster:
         global current_character_1
         global current_character_2
         global scene
-        window.fill((50,50,50))
-        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         
+        window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        window.fill((50,50,50))
         window.blit(button, (10, 10))
         play = text(size=36,text="Back")
         play.render(30, 30)
@@ -134,6 +134,7 @@ class roster:
             pygame.mouse.get_pos()[1] > .5 * 120):
                 #print("clicked mike")
                 current_character_2 = michael
+                stage.setStage(underworld)
                 #match.player2Char = "michael"
 
         window.blit(bell.sprites.roster, (4 * 120,.5 * 120))
@@ -246,8 +247,9 @@ class win_screen:
     def handle(self):
         global running
         global scene
-        window.fill((50,50,50))
+        
         window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
+        window.fill((50,50,50))
         window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 250))
         play = text(size=36,text=f"{self.winner.character.name} ({self.winner.name}) Wins!")
         play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 250) + 10)
