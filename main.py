@@ -13,7 +13,7 @@ from map import stage
 from map import sky_islands, italy, underworld
 stage.setStage(sky_islands,"Sky Islands")
 from character import rosterFrame
-from character import no_char, michael, bell, gus
+from character import no_char, michael, bell, gus, draedon
 from character import player1, player2
 from interface import hp_1, hp_2
 from character import rosterFrame
@@ -173,8 +173,25 @@ class roster:
                 #print("clicked gus")
                 current_character_2 = gus
                 #match.player2Char = "gus"
-
+        
+        window.blit(draedon.sprites.roster, (6 * 120,.5 * 120))
         window.blit(rosterFrame, (6 * 120,.5 * 120))
+        if pygame.mouse.get_pressed()[0]:
+            if (pygame.mouse.get_pos()[0] < 6 * 120 + 100 and
+            pygame.mouse.get_pos()[0] > 6 * 120 and
+            pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
+            pygame.mouse.get_pos()[1] > .5 * 120):
+                #print("clicked gus")
+                current_character_1 = draedon
+                #match.player1Char = "gus"
+        if pygame.mouse.get_pressed()[2]:
+            if (pygame.mouse.get_pos()[0] < 6 * 120 + 100 and
+            pygame.mouse.get_pos()[0] > 6 * 120 and
+            pygame.mouse.get_pos()[1] < .5 * 120 + 100 and
+            pygame.mouse.get_pos()[1] > .5 * 120):
+                #print("clicked gus")
+                current_character_2 = draedon
+                #match.player2Char = "gus"
 
         window.blit(rosterFrame, (7 * 120,.5 * 120))
 
