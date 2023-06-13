@@ -36,7 +36,7 @@ class bar:
         self.x = self.x
         pygame.draw.rect(window, self.empty.color, pygame.Rect(self.empty.x, self.empty.y, self.empty.w, self.empty.h))
         pygame.draw.rect(window, self.color, pygame.Rect(self.x, self.y, self.w, self.h))
-        window.blit(hpFrame, (self.empty.x,self.empty.y))
+        #window.blit(hpFrame, (self.empty.x,self.empty.y))
         
 #########################
 # BARS

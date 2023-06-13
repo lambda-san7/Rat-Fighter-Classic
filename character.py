@@ -106,7 +106,7 @@ class character:
             self.groundpound_r_4 = self.groundpound_l_4
 
             self.roster = pygame.transform.scale(pygame.image.load(spriteSheet[22]).convert_alpha(),(100,100))
-            self.rosterSelect = pygame.transform.scale(pygame.image.load(spriteSheet[24]).convert_alpha(),(100,100))
+            self.rosterSelect = pygame.transform.scale(pygame.image.load(spriteSheet[24]).convert_alpha(),(212,212))
 
             self.sliding_l = pygame.transform.scale(pygame.image.load(spriteSheet[5]).convert_alpha(),(w,h))
             self.sliding_r = pygame.transform.flip(self.crouch_l, True, False)
@@ -202,6 +202,7 @@ class character:
             self.horizontalVelocity = 0
             self.health = 500
             self.x, self.y = self.spawn_point
+            self.target.character.x, self.target.character.y = self.target.character.spawn_point
             camera.start_shake()
             self.stock -= 1
         if self.health <= 0:
@@ -211,6 +212,7 @@ class character:
             self.horizontalVelocity = 0
             self.health = 500
             self.x, self.y = self.spawn_point
+            self.target.character.x, self.target.character.y = self.target.character.spawn_point
             camera.start_shake()
             self.stock -= 1
         
@@ -842,7 +844,7 @@ dante = character(
         f"{dir_path}/dante/attacking_4.gif",
         f"{dir_path}/dante/roster.gif",
         f"{dir_path}/dante/damaged.gif",
-        f"{dir_path}/michael/roster2.gif",
+        f"{dir_path}/dante/roster2.gif",
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
@@ -911,8 +913,13 @@ class player:
         self.character.controller()
         self.character.gravitate()
         if self.name == "player1":
+            play = text(size=36, text=f"{self.character.name} ({self.name})")
+            play.render(10,110)
             window.blit(self.character.sprites.roster, (10,10))
-        if self.name == "player2":
+        if self.name == "player2":            
+            play = text(size=36, text=f"{self.character.name} ({self.name})")
+            print(play.text.get_width())
+            play.render(pygame.display.Info().current_w - play.text.get_width(),110)
             window.blit(self.character.sprites.roster, (pygame.display.Info().current_w - 110,10))
 
 #################### PLAYERS 1 & 2 ####################
@@ -924,3 +931,27 @@ player1.target = player2
 player2.target = player1
 
 #################### SET CHARACTERS ####################
+
+#################### TEXT ##############################
+
+class text:
+    def __init__(self, size, text):
+        self.font = pygame.font.Font(f"{dir_path}/font.fon",size)
+        self.text_holder = text
+        self.text = self.font.render(text, True, (255,255,255))
+    def render(self,x,y):
+        font = pygame.font.Font(f"{dir_path}/font.fon",32)
+        text = font.render(self.text_holder, True, (0,0,0))
+        window.blit(text,(x + 2,y))
+        window.blit(text,(x - 2,y))
+        window.blit(text,(x,y + 2))
+
+        window.blit(text,(x,y - 2))
+
+        window.blit(text,(x + 2,y + 2))
+        window.blit(text,(x - 2,y + 2))
+        window.blit(text,(x - 2,y - 2))
+        window.blit(text,(x + 2,y - 2))
+
+        window.blit(self.text,(x,y))
+
