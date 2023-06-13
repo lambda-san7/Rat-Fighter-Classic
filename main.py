@@ -345,7 +345,13 @@ class text:
         window.blit(text,(x + 2,y))
         window.blit(text,(x - 2,y))
         window.blit(text,(x,y + 2))
+        
         window.blit(text,(x,y - 2))
+
+        window.blit(text,(x + 2,y + 2))
+        window.blit(text,(x - 2,y + 2))
+        window.blit(text,(x - 2,y - 2))
+        window.blit(text,(x + 2,y - 2))
 
         window.blit(self.text,(x,y))
 
