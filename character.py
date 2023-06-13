@@ -812,7 +812,7 @@ draedon = character(
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2,
-    hat=hats.none
+    hat=hats.tophat
 )
 
 dante = character(

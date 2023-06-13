@@ -119,7 +119,7 @@ class roster:
             pygame.mouse.get_pos()[1] > 10):
                 scene = main_menu
 
-        window.blit(rosterBack, ((3 * 120) - 20,(.5 * 120) - 20))
+        #window.blit(rosterBack, ((3 * 120) - 20,(.5 * 120) - 20))
 
         pygame.draw.rect(window, (50,50,50), (3 * 120,.5 * 120, 100, 100))
         window.blit(michael.sprites.roster, (3 * 120,.5 * 120))
@@ -139,7 +139,6 @@ class roster:
             pygame.mouse.get_pos()[1] > .5 * 120):
                 #print("clicked mike")
                 current_character_2 = michael
-                stage.setStage(underworld)
                 #match.player2Char = "michael"
 
         pygame.draw.rect(window, (50,50,50), (4 * 120,.5 * 120, 100, 100))
@@ -259,12 +258,12 @@ class win_screen:
         window.fill((50,50,50))
         window.blit(pygame.transform.scale(pygame.image.load(f"{dir_path}/background.gif").convert_alpha(), (1366,768)),(0,0))
         
-        window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 250))
+        window.blit(rosterselect, ((pygame.display.Info().current_w / 2) - 146, ((pygame.display.Info().current_h - 250) - 292) + 60))
         play = text(size=36,text=f"{self.winner.character.name} ({self.winner.name}) Wins!")
         play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 250) + 10)
         
-        window.blit(pygame.transform.scale(self.winner.character.sprites.idle_right,(200,200)),((pygame.display.Info().current_w / 2) - 50, pygame.display.Info().current_h - 450))
-        window.blit(pygame.transform.scale(self.winner.character.hat,(10,10)),(((pygame.display.Info().current_w / 2) - 50, pygame.display.Info().current_h - 492)))
+        window.blit(pygame.transform.scale(self.winner.character.sprites.idle_right,(200,200)),((pygame.display.Info().current_w / 2) - 100, pygame.display.Info().current_h - 450))
+        window.blit(pygame.transform.scale(self.winner.character.hat,(80,80)),(((pygame.display.Info().current_w / 2) - 100, pygame.display.Info().current_h - 492)))
         window.blit(button, ((pygame.display.Info().current_w / 2) - 146, pygame.display.Info().current_h - 150))
         play = text(size=36,text=f"Continue")
         play.render(((pygame.display.Info().current_w / 2) - 146) + 10, (pygame.display.Info().current_h - 150) + 10)
@@ -282,6 +281,7 @@ class game:
         if player1.character.stock <= 0:
             if player2.character.stock <= 0:
                 print("draw")
+                scene = roster
             winner = win_screen(player2)
             #print("player2 Wins!!!")
             scene = winner
@@ -345,7 +345,7 @@ class text:
         window.blit(text,(x + 2,y))
         window.blit(text,(x - 2,y))
         window.blit(text,(x,y + 2))
-        
+
         window.blit(text,(x,y - 2))
 
         window.blit(text,(x + 2,y + 2))
