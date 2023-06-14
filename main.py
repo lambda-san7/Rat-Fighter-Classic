@@ -226,14 +226,14 @@ class roster:
         window.blit(rosterselect, (3 * 120, ((pygame.display.Info().current_h - 292) - 150) + 60))
         window.blit(current_character_1.sprites.rosterSelect,(((3 * 120) + 10) + 60, (((pygame.display.Info().current_h - 292) - 150) + 60) + 20))
         window.blit(current_character_1.sprites.idle_right,(((3 * 120) + 30, (pygame.display.Info().current_h - 260) + 60)))
-        window.blit(current_character_1.hat,((3 * 120) + 50, pygame.display.Info().current_h - 292))
+        window.blit(current_character_1.hat,((3 * 120) + 50, ((pygame.display.Info().current_h - 260) + 60) - 20))
         play = text(size=36,text=f"{current_character_1.name}")
         play.render((3 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
 
         window.blit(rosterselect, (7 * 120, ((pygame.display.Info().current_h - 292) - 150) + 60))
         window.blit(current_character_2.sprites.rosterSelect,(((7 * 120) + 10) + 60,(((pygame.display.Info().current_h - 292) - 150) + 60) + 20))
         window.blit(current_character_2.sprites.idle_right,(((7 * 120) + 30, (pygame.display.Info().current_h - 260) + 60)))
-        window.blit(current_character_2.hat,((7 * 120) + 50, pygame.display.Info().current_h - 292))
+        window.blit(current_character_2.hat,((7 * 120) + 50, ((pygame.display.Info().current_h - 260) + 60) - 20))
         play = text(size=36,text=f"{current_character_2.name}")
         play.render((7 * 120) + 10, (pygame.display.Info().current_h - 150) + 10)
 
