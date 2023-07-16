@@ -21,5 +21,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 os.chdir(dir_path)
 
+clock = pygame.time.Clock()
+
+delta = clock.tick(fps)/1000
+
 pygame_icon = pygame.image.load(f"{dir_path}/michael/idle_left.gif").convert_alpha()
 pygame.display.set_icon(pygame_icon)

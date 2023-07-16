@@ -7,6 +7,9 @@ from default import dir_path
 from default import gravityAffected
 from map import stage
 from match import player1Char, player2Char
+from default import clock, delta
+
+
 
 bubble = pygame.transform.scale(pygame.image.load(f"{dir_path}/bubble.gif").convert_alpha(),(60,60))
 jump_ground = pygame.transform.scale(pygame.image.load(f"{dir_path}/jump_grounded.gif").convert_alpha(),(70,70))
@@ -130,9 +133,9 @@ class character:
         )
         self.sprite = self.sprites.idle_left
         self.uldr = uldr
-        self.speed = 7
-        self.jumpVelocity = 0
-        self.horizontalVelocity = 0
+        self.speed = 7*200*delta
+        self.jumpVelocity = 0*80*delta
+        self.horizontalVelocity = 0*200*delta
         self.facing = "left"
         self.runAnimFrame = 0
         self.dodgeAnimFrame = 0
@@ -209,7 +212,7 @@ class character:
             self.target.character.kills += 1
             self.deaths += 1
             self.jumpVelocity = 0
-            self.horizontalVelocity = 0
+            self.horizontalVelocity = 0 
             self.health = 500
             self.x, self.y = self.spawn_point
             self.target.character.x, self.target.character.y = self.target.character.spawn_point
@@ -221,7 +224,7 @@ class character:
         if pygame.key.get_pressed()[self.uldr[0]]:
             
             if self.collidingGround():
-                self.jumpVelocity = 20
+                self.jumpVelocity = 20*80*delta
                 window.blit(jump_ground,(((self.x - 5) - camera.x) * camera.scale,((self.y - 20) - camera.y) * camera.scale))  
             else:
                 if self.facing == "left":
@@ -252,7 +255,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 70) and
                         self.target.character.y < (self.y - 30) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 30)):
-                        self.target.character.horizontalVelocity -= 10
+                        self.target.character.horizontalVelocity -= 10*60*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -272,7 +275,7 @@ class character:
 
             self.moving = True
             if pygame.key.get_pressed()[self.uldr[5]]:
-                self.horizontalVelocity -= 2
+                self.horizontalVelocity -= 2*60*delta
                 if self.dodgeAnimFrame > 8:
                     self.dodgeAnimFrame = 1
                 for i in range(5):
@@ -285,7 +288,7 @@ class character:
 
             if self.collidingGround() == False:
                 self.sprite = self.sprites.idle_left
-                self.x -= 10
+                self.x -= self.speed
                 return
             
             #################### PLAYER CONTROLLER --> LEFT --> CLIMBING ####################
@@ -294,7 +297,7 @@ class character:
                 self.y -= 2
                 if pygame.key.get_pressed()[self.uldr[0]]:
                     self.x += 55
-                    self.horizontalVelocity = -2
+                    self.horizontalVelocity = -2*60*delta
 
                 if self.runAnimFrame > 8:
                     self.runAnimFrame = 1
@@ -342,7 +345,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x + 70) and
                         self.target.character.y < (self.y - 30) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 30)):
-                        self.target.character.horizontalVelocity += 10
+                        self.target.character.horizontalVelocity += 10*60*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -361,7 +364,7 @@ class character:
             #################### PLAYER CONTROLLER --> RIGHT --> DODGE ####################
 
             if pygame.key.get_pressed()[self.uldr[5]]:
-                self.horizontalVelocity += 2
+                self.horizontalVelocity += 2*60*delta
                 if self.dodgeAnimFrame > 8:
                     self.dodgeAnimFrame = 1
 
@@ -377,7 +380,7 @@ class character:
     
             if self.collidingGround() == False:
                 self.sprite = self.sprites.idle_right
-                self.x += 10
+                self.x += self.speed
                 return
             
             #################### PLAYER CONTROLLER --> RIGHT --> CLIMBING ####################
@@ -426,7 +429,7 @@ class character:
                             self.target.character.x + (self.target.character.w - 20) > (self.x - 70) and
                             self.target.character.y < (self.y + 70) + 80 and
                             self.target.character.y + self.target.character.h > (self.y + 70)):
-                            self.target.character.jumpVelocity += 10
+                            self.target.character.jumpVelocity += 10*80*delta
                             self.target.character.health -= 50
                             self.target.character.sprite = self.target.character.damageFrame = 10
                     if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -461,7 +464,7 @@ class character:
         #################### PLAYER CONTROLLER --> TESTING BUTTON ####################
 
         if pygame.key.get_pressed()[pygame.K_r]:
-            self.horizontalVelocity = 1
+            self.horizontalVelocity = 1*60*delta
 
         #################### PLAYER CONTROLLER --> ATTACK ####################
         
@@ -484,8 +487,8 @@ class character:
                                 self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                                 self.target.character.y < (self.y - 10) + 80 and
                                 self.target.character.y + self.target.character.h > (self.y - 10)):
-                                self.target.character.horizontalVelocity -= 10
-                                self.target.character.jumpVelocity -= 10
+                                self.target.character.horizontalVelocity -= 10*60*delta
+                                self.target.character.jumpVelocity -= 10*80*delta
                                 self.target.character.health -= 50
                                 self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -508,8 +511,8 @@ class character:
                                 self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                                 self.target.character.y < (self.y - 10) + 80 and
                                 self.target.character.y + self.target.character.h > (self.y - 10)):
-                                self.target.character.horizontalVelocity += 10
-                                self.target.character.jumpVelocity -= 10
+                                self.target.character.horizontalVelocity += 10*60*delta
+                                self.target.character.jumpVelocity -= 10*80*delta
                                 self.target.character.health -= 50
                                 self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -538,7 +541,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                         self.target.character.y < (self.y - 40) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 40)):
-                        self.target.character.jumpVelocity += 10
+                        self.target.character.jumpVelocity += 10*80*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -557,7 +560,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                         self.target.character.y < (self.y - 40) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 40)):
-                        self.target.character.jumpVelocity += 10
+                        self.target.character.jumpVelocity += 10*80*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -584,7 +587,7 @@ class character:
 
             if self.facing == "left": 
                 for i in range(5):
-                    self.horizontalVelocity = 0
+                    self.horizontalVelocity = 0*60*delta
                     self.jumpVelocity = 0
                     window.blit(bubble,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
 
@@ -592,7 +595,7 @@ class character:
 
             if self.facing == "right":
                 for i in range(5):
-                    self.horizontalVelocity = 0
+                    self.horizontalVelocity = 0*60*delta
                     self.jumpVelocity = 0
                     window.blit(bubble,(((self.x - 10) - camera.x) * camera.scale,((self.y - 10) - camera.y) * camera.scale))
             else:
@@ -641,14 +644,14 @@ class character:
 
         #################### VELOCITY HANDLING ####################
 
-        self.y -= self.jumpVelocity
-        self.x += self.horizontalVelocity
+        self.y -= self.jumpVelocity*80*delta
+        self.x += self.horizontalVelocity*60*delta
 
         if self.horizontalVelocity > 0:
-          self.horizontalVelocity -= 1
+          self.horizontalVelocity -= 1*60*delta
 
         if self.horizontalVelocity < 0:
-          self.horizontalVelocity += 1
+          self.horizontalVelocity += 1*60*delta
 
         if self.damageFrame > 0:
           self.damageFrame -= 1
@@ -660,7 +663,7 @@ class character:
 
         if self.collidingGround() == "left" or self.collidingGround() == "right":
             self.sprite = self.sprites.sliding_l
-            self.jumpVelocity = -1
+            self.jumpVelocity = -1*60*delta
 
         #################### GROUNDED ####################
 
@@ -672,7 +675,7 @@ class character:
 
         if self.collidingGround() == False:
             self.y += self.weight
-            self.jumpVelocity -= 1
+            self.jumpVelocity -= 1*200*delta
         else:
             pass
         
@@ -918,7 +921,6 @@ class player:
             window.blit(self.character.sprites.roster, (10,10))
         if self.name == "player2":            
             play = text(size=36, text=f"{self.character.name} ({self.name})")
-            print(play.text.get_width())
             play.render(pygame.display.Info().current_w - play.text.get_width(),110)
             window.blit(self.character.sprites.roster, (pygame.display.Info().current_w - 110,10))
 

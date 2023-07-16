@@ -19,6 +19,8 @@ from interface import hp_1, hp_2
 from character import rosterFrame
 from interface import scoreBox
 from camera import camera
+from default import clock, delta
+import default
 
 
 
@@ -29,7 +31,7 @@ pygame.mouse.set_visible(False)
 
 running = True
 
-clock = pygame.time.Clock()
+
 
 cursor = pygame.transform.scale(pygame.image.load(f"{dir_path}/ui/cursor.gif").convert_alpha(), (25,25))
 
@@ -276,7 +278,6 @@ class win_screen:
             pygame.mouse.get_pos()[1] > pygame.display.Info().current_h - 150):
                 scene = roster
 
-
 class game:
     def handle():
         global scene
@@ -362,6 +363,7 @@ scene = main_menu
 cursorSprite = cursor
 
 while running:
+    #default.delta = clock.tick(fps)/1000
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
