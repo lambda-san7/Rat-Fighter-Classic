@@ -119,7 +119,7 @@ class character:
 
     #################### CHARACTER INFO ####################
 
-    def __init__(self,name_arg,spriteSheet,location=[0,0],size=[50,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q],hat=hats.none,weight=2):
+    def __init__(self,name_arg,spriteSheet,location=[0,0],size=[50,50],uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_e,pygame.K_q],hat=hats.none,weight=2,strength=10,speed=7):
         self.name = name_arg
         self.x = location[0]
         self.y = location[1]
@@ -133,7 +133,7 @@ class character:
         )
         self.sprite = self.sprites.idle_left
         self.uldr = uldr
-        self.speed = 7*200*delta
+        self.speed = speed*200*delta
         self.jumpVelocity = 0*80*delta
         self.horizontalVelocity = 0*200*delta
         self.facing = "left"
@@ -152,6 +152,7 @@ class character:
         self.health = 500
         self.spawn_point = (0,0)
         self.stock = 3
+        self.strength = strength
 
     #################### PLAYER RENDER ####################
 
@@ -255,7 +256,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 70) and
                         self.target.character.y < (self.y - 30) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 30)):
-                        self.target.character.horizontalVelocity -= 10*60*delta
+                        self.target.character.horizontalVelocity -= (self.strength - self.target.character.weight)*60*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -345,7 +346,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x + 70) and
                         self.target.character.y < (self.y - 30) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 30)):
-                        self.target.character.horizontalVelocity += 10*60*delta
+                        self.target.character.horizontalVelocity += (self.strength - self.target.character.weight)*60*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -429,7 +430,7 @@ class character:
                             self.target.character.x + (self.target.character.w - 20) > (self.x - 70) and
                             self.target.character.y < (self.y + 70) + 80 and
                             self.target.character.y + self.target.character.h > (self.y + 70)):
-                            self.target.character.jumpVelocity += 10*80*delta
+                            self.target.character.jumpVelocity += (self.strength - self.target.character.weight)*80*delta
                             self.target.character.health -= 50
                             self.target.character.sprite = self.target.character.damageFrame = 10
                     if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -487,8 +488,8 @@ class character:
                                 self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                                 self.target.character.y < (self.y - 10) + 80 and
                                 self.target.character.y + self.target.character.h > (self.y - 10)):
-                                self.target.character.horizontalVelocity -= 10*60*delta
-                                self.target.character.jumpVelocity -= 10*80*delta
+                                self.target.character.horizontalVelocity -= (self.strength - self.target.character.weight)*60*delta
+                                self.target.character.jumpVelocity -= (self.strength - self.target.character.weight)*80*delta
                                 self.target.character.health -= 50
                                 self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -511,8 +512,8 @@ class character:
                                 self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                                 self.target.character.y < (self.y - 10) + 80 and
                                 self.target.character.y + self.target.character.h > (self.y - 10)):
-                                self.target.character.horizontalVelocity += 10*60*delta
-                                self.target.character.jumpVelocity -= 10*80*delta
+                                self.target.character.horizontalVelocity += (self.strength - self.target.character.weight)*60*delta
+                                self.target.character.jumpVelocity -= (self.strength - self.target.character.weight)*80*delta
                                 self.target.character.health -= 50
                                 self.target.character.sprite = self.target.character.damageFrame = 10
                         if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -541,7 +542,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                         self.target.character.y < (self.y - 40) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 40)):
-                        self.target.character.jumpVelocity += 10*80*delta
+                        self.target.character.jumpVelocity += (self.strength - self.target.character.weight)*80*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -560,7 +561,7 @@ class character:
                         self.target.character.x + (self.target.character.w - 20) > (self.x - 10) and
                         self.target.character.y < (self.y - 40) + 80 and
                         self.target.character.y + self.target.character.h > (self.y - 40)):
-                        self.target.character.jumpVelocity += 10*80*delta
+                        self.target.character.jumpVelocity += (self.strength - self.target.character.weight)*80*delta
                         self.target.character.health -= 50
                         self.target.character.sprite = self.target.character.damageFrame = 10
                 if self.attackAnimFrame == 3 or self.attackAnimFrame == 4:
@@ -711,7 +712,9 @@ michael = character(
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_w,pygame.K_a,pygame.K_s,pygame.K_d,pygame.K_f,pygame.K_g],
-    weight=2
+    weight=2,
+    strength=10,
+    speed=7,
 )
 
 #################### BELL ####################
@@ -747,7 +750,9 @@ bell = character(
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
-    weight=2
+    weight=2,
+    strength=10,
+    speed=9,
 )
 
 gus = character(
@@ -782,7 +787,9 @@ gus = character(
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2,
-    hat=hats.cowboy
+    hat=hats.cowboy,
+    strength=13,
+    speed=6,
 )
 
 draedon = character(
@@ -817,7 +824,9 @@ draedon = character(
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=2,
-    hat=hats.tophat
+    hat=hats.tophat,
+    strength=15,
+    speed=5,
 )
 
 dante = character(
@@ -851,8 +860,10 @@ dante = character(
     ],
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
-    weight=2,
-    hat=hats.none
+    weight=3,
+    hat=hats.none,
+    strength=20,
+    speed=3,
 )
 
 no_char = character(
@@ -887,7 +898,9 @@ no_char = character(
     location=[stage.stage.x + 100,stage.stage.y - 100],
     #uldr=[pygame.K_UP,pygame.K_LEFT,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_RALT,pygame.K_RCTRL],
     weight=0,
-    hat=hats.none
+    hat=hats.none,
+    strength=0,
+    speed=0,
 )
 
 #########################
