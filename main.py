@@ -22,7 +22,7 @@ from camera import camera
 from default import clock, delta
 import default
 
-
+stage.setStage(italy)
 
 player1.setCharacter(no_char)
 player2.setCharacter(no_char)
